@@ -10,16 +10,19 @@ function Login() {
   const [password, setPassword] = useState("");
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    const success = await login(username, password);
+  console.log("USERNAME:", username);
+  console.log("PASSWORD:", password);
 
-    if (success) {
-      navigate("/dashboard");
-    } else {
-      alert("Invalid credentials");
-    }
-  };
+  const success = await login(username, password);
+
+  if (success) {
+    navigate("/dashboard");
+  } else {
+    alert("Invalid credentials");
+  }
+};
 
   return (
     <div>

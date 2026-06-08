@@ -10,7 +10,7 @@ function Navbar() {
     <nav className="bg-gray-900 text-white px-6 py-4 flex justify-between items-center relative">
 
       {/* LOGO */}
-      <h2 className="text-xl font-bold">Hotel System</h2>
+      <h2 className="text-xl font-sm">Hotel System</h2>
 
       {/* DESKTOP LINKS */}
       <div className="hidden md:flex gap-6 items-center">
