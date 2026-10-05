@@ -1,0 +1,14 @@
+Django>=5.2,<6.1
+djangorestframework>=3.15
+djangorestframework-simplejwt>=5.4
+django-cors-headers>=4.7
+dj-database-url>=2.3
+psycopg2-binary>=2.9.10
+gunicorn>=23.0
+whitenoise>=6.9
+redis>=5.2
+celery>=5.5
+strawberry-graphql>=0.280
+strawberry-graphql-django>=0.65
+Pillow>=11.1
+cloudinary>=1.44

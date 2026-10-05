@@ -1,24 +1,2 @@
-import { Outlet } from "react-router-dom";
-import Navbar from "../components/public/Navbar";
-import Footer from "../components/public/Footer";
-
-function PublicLayout() {
-  return (
-    <div>
-
-      {/* TOP NAVBAR */}
-      <Navbar />
-
-      {/* PAGE CONTENT (CHANGES PER ROUTE) */}
-      <main>
-        <Outlet />
-      </main>
-
-      {/* FOOTER */}
-      <Footer />
-
-    </div>
-  );
-}
-
-export default PublicLayout;
+import {Outlet,useLocation} from 'react-router-dom'; import {useEffect} from 'react'; import Navbar from '../components/public/Navbar'; import Footer from '../components/public/Footer'; import ConnectionStatus from '../components/common/ConnectionStatus';
+export default function PublicLayout(){const{pathname}=useLocation();useEffect(()=>{window.scrollTo({top:0,behavior:'instant'});},[pathname]);return <div className="min-h-screen"><Navbar/><main><Outlet/></main><Footer/><ConnectionStatus/></div>}

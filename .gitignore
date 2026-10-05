@@ -1,18 +1,30 @@
-# Python
-backend/venv/
-backend/__pycache__/
-*.pyc
-db.sqlite3
-
-# Node
-frontend/node_modules/
-frontend/dist/
-
-# Environment files
+node_modules/
+**/node_modules/
+.pnpm-store/
+**/.pnpm-store/
+.venv/
+venv/
+__pycache__/
+*.py[cod]
 .env
-
-# VS Code
-.vscode/
-
-# Logs
+.env.*
+!.env.example
+!**/.env.example
+dist/
+build/
+staticfiles/
+*.tsbuildinfo
+*.sqlite3
+*.db
+media/
 *.log
+celerybeat-schedule
+celerybeat.pid
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+.vercel/

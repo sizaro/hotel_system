@@ -1,0 +1,4 @@
+from rest_framework.routers import DefaultRouter
+from .views import ExpenseViewSet,FolioChargeViewSet,FolioViewSet,InstallmentScheduleViewSet,InvoiceViewSet,PaymentViewSet,QuotationViewSet,RefundViewSet,StayViewSet
+router=DefaultRouter(); router.register('stays',StayViewSet,basename='stays'); router.register('folios',FolioViewSet,basename='folios'); router.register('charges',FolioChargeViewSet,basename='charges'); router.register('payments',PaymentViewSet,basename='payments'); router.register('invoices',InvoiceViewSet,basename='invoices'); router.register('refunds',RefundViewSet,basename='refunds'); router.register('installments',InstallmentScheduleViewSet,basename='installments'); router.register('expenses',ExpenseViewSet,basename='expenses'); router.register('quotations',QuotationViewSet,basename='quotations')
+urlpatterns=router.urls

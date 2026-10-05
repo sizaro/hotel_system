@@ -1,0 +1,21 @@
+import {api} from './api';
+import {cacheOffline,queueOperation,readOffline} from './offline';
+
+const unwrap=response=>response.data?.results||response.data;
+const list=async(url,cacheKey)=>{try{const data=unwrap(await api.get(url));if(cacheKey)await cacheOffline(cacheKey,data);return data}catch(error){if(cacheKey){const cached=await readOffline(cacheKey);if(cached)return cached}throw error}};
+const create=(url,data)=>api.post(url,data).then(unwrap);
+const act=(url,data={})=>api.post(url,data).then(unwrap);
+const durable=async(type,url,data)=>{if(!navigator.onLine){await queueOperation(type,{method:'POST',url,data});return {queued:true}}try{return await create(url,data)}catch(error){if(!error.response){await queueOperation(type,{method:'POST',url,data});return {queued:true}}throw error}};
+
+export const hotelOps={
+  commandCenter:()=>api.get('/reports/command-center/').then(unwrap),
+  bookings:()=>list('/bookings/','bookings'),guests:(search='')=>list(`/bookings/guests/${search?`?search=${encodeURIComponent(search)}`:''}`,'guests'),rooms:()=>list('/rooms/','rooms'),
+  confirmBooking:(id,room_id)=>act(`/bookings/${id}/confirm/`,{room_id}),cancelBooking:id=>act(`/bookings/${id}/cancel/`),counterStay:data=>durable('COUNTER_STAY','/bookings/counter/',data),
+  stays:()=>list('/finance/stays/','stays'),createStay:data=>durable('STAY','/finance/stays/',data),checkIn:id=>act(`/finance/stays/${id}/check_in/`),checkOut:id=>act(`/finance/stays/${id}/check_out/`),extendStay:(id,departure_date)=>act(`/finance/stays/${id}/extend/`,{departure_date}),transferStay:(id,room_id,reason)=>act(`/finance/stays/${id}/transfer/`,{room_id,reason}),
+  folios:()=>list('/finance/folios/','folios'),payments:()=>list('/finance/payments/'),recordPayment:data=>durable('PAYMENT','/finance/payments/',data),reversePayment:(id,reason)=>act(`/finance/payments/${id}/reverse/`,{reason}),expenses:()=>list('/finance/expenses/'),refunds:()=>list('/finance/refunds/'),
+  outlets:()=>list('/inventory/outlets/','outlets'),createOutlet:data=>create('/inventory/outlets/',data),products:()=>list('/inventory/products/','products'),createProduct:data=>create('/inventory/products/',data),categories:()=>list('/inventory/categories/','categories'),createCategory:data=>create('/inventory/categories/',data),suppliers:()=>list('/inventory/suppliers/','suppliers'),createSupplier:data=>create('/inventory/suppliers/',data),locations:()=>list('/inventory/locations/','locations'),createLocation:data=>create('/inventory/locations/',data),purchases:()=>list('/inventory/purchases/'),receiveStock:data=>durable('STOCK_RECEIPT','/inventory/purchases/',data),stockCounts:()=>list('/inventory/stock-counts/'),recordStockCount:data=>durable('STOCK_COUNT','/inventory/stock-counts/',data),approveStockCount:id=>act(`/inventory/stock-counts/${id}/approve/`),
+  sales:()=>list('/inventory/sales/','sales'),recordSale:data=>durable('OUTLET_SALE','/inventory/sales/',data),voidSale:(id,reason)=>act(`/inventory/sales/${id}/void/`,{reason}),balances:()=>list('/inventory/movements/balances/','stock-balances'),movements:()=>list('/inventory/movements/','stock-movements'),recordMovement:data=>durable('STOCK_MOVEMENT','/inventory/movements/',data),transferStock:data=>durable('STOCK_TRANSFER','/inventory/movements/transfer/',data),
+  reconciliations:()=>list('/inventory/reconciliations/'),expectedCash:(outlet,business_date)=>api.get('/inventory/reconciliations/expected/',{params:{outlet,business_date}}).then(unwrap),closeCash:data=>durable('CASH_RECONCILIATION','/inventory/reconciliations/',data),approveCash:id=>act(`/inventory/reconciliations/${id}/approve/`),
+  events:()=>list('/events/bookings/'),venues:()=>list('/events/venues/'),eventTypes:()=>list('/events/types/'),createEvent:data=>create('/events/bookings/',data),housekeeping:()=>list('/operations/housekeeping/'),completeHousekeeping:id=>act(`/operations/housekeeping/${id}/complete/`),maintenance:()=>list('/operations/maintenance/'),campaigns:()=>list('/operations/campaigns/'),communications:()=>list('/operations/communications/'),
+  outletReport:params=>api.get('/reports/outlets/',{params}).then(unwrap),stockReport:params=>api.get('/reports/stock/',{params}).then(unwrap),cashReport:params=>api.get('/reports/cash-control/',{params}).then(unwrap),ask:question=>api.post('/ai/ask/',{question}).then(unwrap)
+};

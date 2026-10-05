@@ -1,10 +1,3 @@
-function About() {
-  return (
-    <div>
-      <h1>About Us</h1>
-      <p>We manage hotel rooms and bookings.</p>
-    </div>
-  );
-}
-
-export default About;
+import {Award,Heart,Leaf,Users} from 'lucide-react'; import PageHero from '../../components/common/PageHero'; import Reveal from '../../components/common/Reveal'; import {useHotel} from '../../context/HotelContext';
+const values=[[Heart,'Genuine care','Warm, observant service that respects every guest.'],[Award,'Quiet excellence','Consistent standards without unnecessary ceremony.'],[Leaf,'Responsible hospitality','Thoughtful choices for community and environment.'],[Users,'Shared moments','Places made for rest, connection and celebration.']];
+export default function About(){const{hotel}=useHotel();return <><PageHero eyebrow="Our story" title={`The spirit behind ${hotel.short_name}.`} copy="Independent hospitality shaped around people, place and the details guests remember." image="https://images.unsplash.com/photo-1540541338287-41700207dee6?auto=format&fit=crop&w=1800&q=85"/><section className="section-space"><div className="page-shell grid gap-12 lg:grid-cols-2 lg:items-center"><Reveal><p className="eyebrow">Who we are</p><h2 className="section-title mt-3">A place with purpose.</h2><p className="body-copy mt-6">{hotel.description}</p><p className="body-copy mt-4">We bring accommodation, dining, events and local experiences together through attentive teams and dependable systems. The result is a stay that feels personal while remaining beautifully organized.</p></Reveal><Reveal><img className="h-[460px] w-full rounded-[2rem] object-cover shadow-2xl" src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=1200&q=85" alt="Hotel hospitality"/></Reveal></div></section><section className="section-space bg-cream"><div className="page-shell"><p className="eyebrow">What guides us</p><h2 className="section-title mt-3">Hospitality with substance.</h2><div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-4">{values.map(([Icon,title,copy],i)=><Reveal key={title} delay={i*.06} className="surface-card p-6"><Icon className="text-gold"/><h3 className="mt-5 text-xl font-bold">{title}</h3><p className="body-copy mt-3 text-sm">{copy}</p></Reveal>)}</div></div></section></>}

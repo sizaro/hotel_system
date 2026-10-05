@@ -1,0 +1,3 @@
+import Reveal from '../common/Reveal';
+const stats=[['24/7','Guest support'],['4','Connected experiences'],['100%','Configurable hospitality'],['1','Trusted guest journey']];
+export default function Stats(){return <section className="border-y border-mist bg-cream"><div className="page-shell grid grid-cols-2 divide-x divide-mist py-10 lg:grid-cols-4">{stats.map(([value,label],i)=><Reveal key={label} delay={i*.07} className="px-4 text-center"><strong className="font-serif text-3xl text-forest sm:text-4xl">{value}</strong><p className="mt-2 text-xs font-bold uppercase tracking-wider text-slate-500">{label}</p></Reveal>)}</div></section>}

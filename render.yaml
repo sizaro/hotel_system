@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: hotel-platform-api
+    runtime: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    healthCheckPath: /api/health/
+    preDeployCommand: python manage.py migrate && python manage.py seed_hotel
+    envVars:
+      - {key: DATABASE_URL, fromDatabase: {name: hotel-platform-db, property: connectionString}}
+      - {key: DJANGO_SECRET_KEY, generateValue: true}
+      - {key: DJANGO_DEBUG, value: "false"}
+      - {key: DJANGO_ALLOWED_HOSTS, value: hotel-platform-api.onrender.com}
+      - {key: FRONTEND_ORIGINS, value: "https://your-hotel.vercel.app"}
+      - {key: CSRF_TRUSTED_ORIGINS, value: "https://your-hotel.vercel.app"}
+      - {key: HOTEL_NAME, sync: false}
+      - {key: HOTEL_SHORT_NAME, sync: false}
+      - {key: HOTEL_TIMEZONE, value: "Africa/Kampala"}
+      - {key: CLOUDINARY_URL, sync: false}
+      - {key: CLOUDINARY_FOLDER, value: "hotel-platform"}
+      - {key: BOOTSTRAP_ADMIN_EMAIL, sync: false}
+      - {key: BOOTSTRAP_ADMIN_PASSWORD, sync: false}
+databases:
+  - {name: hotel-platform-db, databaseName: hotel_platform, user: hotel_platform}

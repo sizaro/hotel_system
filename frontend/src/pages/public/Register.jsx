@@ -1,17 +1,2 @@
-function Register() {
-  return (
-    <div>
-      <h1>Register</h1>
-
-      <form>
-        <input placeholder="Username" />
-        <input placeholder="Email" />
-        <input type="password" placeholder="Password" />
-
-        <button>Create Account</button>
-      </form>
-    </div>
-  );
-}
-
-export default Register;
+import {useState} from 'react'; import {Eye,EyeOff,UserPlus} from 'lucide-react'; import {Link,useNavigate} from 'react-router-dom'; import {toast} from 'sonner'; import {useAuth} from '../../context/AuthContext';
+export default function Register(){const[form,setForm]=useState({first_name:'',last_name:'',email:'',phone:'',password:'',confirm:''});const[show,setShow]=useState(false);const[saving,setSaving]=useState(false);const{register}=useAuth();const navigate=useNavigate();const set=(key,value)=>setForm(x=>({...x,[key]:value}));async function submit(e){e.preventDefault();if(form.password!==form.confirm)return toast.error('Passwords do not match.');setSaving(true);try{const{confirm,...payload}=form;void confirm;await register(payload);toast.success('Your guest account is ready.');navigate('/dashboard')}catch(error){const detail=error.response?.data;toast.error(Object.values(detail||{})[0]?.[0]||'Unable to create the account.')}finally{setSaving(false)}}return <main className="min-h-screen bg-cream px-4 py-24"><div className="surface-card mx-auto max-w-2xl p-6 md:p-10"><p className="eyebrow">Guest account</p><h1 className="section-title mt-3">Make every stay easier.</h1><p className="body-copy mt-3">Create an account to keep booking references and stay information together.</p><form onSubmit={submit} className="mt-8 grid gap-5 md:grid-cols-2"><label className="text-sm font-bold">First name<input required className="form-input mt-2" value={form.first_name} onChange={e=>set('first_name',e.target.value)}/></label><label className="text-sm font-bold">Last name<input required className="form-input mt-2" value={form.last_name} onChange={e=>set('last_name',e.target.value)}/></label><label className="text-sm font-bold">Email<input required type="email" className="form-input mt-2" value={form.email} onChange={e=>set('email',e.target.value)}/></label><label className="text-sm font-bold">Phone<input className="form-input mt-2" value={form.phone} onChange={e=>set('phone',e.target.value)}/></label><label className="text-sm font-bold">Password<span className="relative mt-2 block"><input required minLength="8" type={show?'text':'password'} className="form-input pr-12" value={form.password} onChange={e=>set('password',e.target.value)}/><button type="button" onClick={()=>setShow(x=>!x)} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500">{show?<EyeOff size={19}/>:<Eye size={19}/>}</button></span></label><label className="text-sm font-bold">Confirm password<input required minLength="8" type={show?'text':'password'} className="form-input mt-2" value={form.confirm} onChange={e=>set('confirm',e.target.value)}/></label><button disabled={saving} className="btn-primary md:col-span-2"><UserPlus size={18}/>{saving?'Creating account…':'Create guest account'}</button></form><p className="mt-7 text-sm text-slate-600">Already registered? <Link to="/login" className="font-bold text-forest">Sign in</Link></p></div></main>}

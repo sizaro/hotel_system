@@ -1,0 +1,3 @@
+from django.contrib import admin
+from .models import CashReconciliation,Outlet,OutletSale,Product,ProductCategory,PurchaseReceipt,PurchaseReceiptLine,SaleLine,StockCount,StockCountLine,StockLocation,StockMovement,Supplier
+admin.site.register([Outlet,ProductCategory,Product,Supplier,StockLocation,StockMovement,PurchaseReceipt,PurchaseReceiptLine,StockCount,StockCountLine,OutletSale,SaleLine,CashReconciliation])

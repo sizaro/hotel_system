@@ -1,10 +1,2 @@
-function Home() {
-  return (
-    <div>
-      <h1>Welcome to Hotel System</h1>
-      <p>This is the homepage.</p>
-    </div>
-  );
-}
-
-export default Home;
+import Hero from '../../components/home/Hero'; import BookingBar from '../../components/home/BookingBar'; import Introduction from '../../components/home/Introduction'; import Stats from '../../components/home/Stats'; import RoomsPreview from '../../components/home/RoomsPreview'; import ServicesPreview from '../../components/home/ServicesPreview'; import DiningFeature from '../../components/home/DiningFeature'; import EventsFeature from '../../components/home/EventsFeature'; import Experiences from '../../components/home/Experiences'; import Gallery from '../../components/home/Gallery'; import Testimonials from '../../components/home/Testimonials'; import Offers from '../../components/home/Offers'; import Location from '../../components/home/Location'; import FinalCta from '../../components/home/FinalCta';
+export default function Home(){return <><Hero/><BookingBar/><Introduction/><Stats/><RoomsPreview/><ServicesPreview/><DiningFeature/><EventsFeature/><Experiences/><Gallery/><Testimonials/><Offers/><Location/><FinalCta/></>}

@@ -1,11 +1,2 @@
-function Footer() {
-  return (
-    <footer className="bg-gray-900 text-white text-center py-6 mt-10">
-      <p className="text-sm">
-        © {new Date().getFullYear()} Hotel System. All rights reserved.
-      </p>
-    </footer>
-  );
-}
-
-export default Footer;
+import {Facebook,Instagram,Mail,MapPin,Phone,Youtube} from 'lucide-react'; import {Link} from 'react-router-dom'; import {useHotel} from '../../context/HotelContext';
+export default function Footer(){const{hotel}=useHotel();return <footer className="bg-ink text-white"><div className="page-shell grid gap-10 py-16 md:grid-cols-2 lg:grid-cols-4"><div><h2 className="font-serif text-2xl">{hotel.name}</h2><p className="mt-4 max-w-sm text-sm leading-7 text-white/60">{hotel.description}</p></div><div><h3 className="font-bold">Explore</h3><div className="mt-4 grid gap-3 text-sm text-white/65"><Link to="/rooms">Rooms & suites</Link><Link to="/services">Hotel services</Link><Link to="/events">Events & venues</Link><Link to="/about">Our story</Link></div></div><div><h3 className="font-bold">Contact</h3><div className="mt-4 grid gap-3 text-sm text-white/65">{hotel.address&&<span className="flex gap-2"><MapPin size={17}/>{hotel.address}</span>}{hotel.phone&&<a className="flex gap-2" href={`tel:${hotel.phone}`}><Phone size={17}/>{hotel.phone}</a>}{hotel.email&&<a className="flex gap-2" href={`mailto:${hotel.email}`}><Mail size={17}/>{hotel.email}</a>}</div></div><div><h3 className="font-bold">Follow the journey</h3><div className="mt-4 flex gap-3">{[[Instagram,'instagram'],[Facebook,'facebook'],[Youtube,'youtube']].map(([Icon,key])=><a key={key} href={hotel.social_links?.[key]||'#'} aria-label={key} className="rounded-full border border-white/20 p-2.5 transition hover:border-gold hover:text-gold"><Icon size={18}/></a>)}</div></div></div><div className="border-t border-white/10"><div className="page-shell flex flex-col gap-2 py-5 text-xs text-white/45 sm:flex-row sm:justify-between"><span>© {new Date().getFullYear()} {hotel.name}. All rights reserved.</span><span>Powered by a configurable Hotel Management Platform.</span></div></div></footer>}
